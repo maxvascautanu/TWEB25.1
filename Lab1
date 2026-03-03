@@ -1,409 +1,643 @@
-# TWEB25.1
 <!doctype html>
 <html lang="ro">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Lucrarea de laborator №2 — CSS — Real Madrid CF</title>
-
-  <style>
-    /* =========================
-       0) RESET / BASE
-    ========================== */
-    *{ box-sizing: border-box; }
-    html{ scroll-behavior: smooth; }
-    body{
-      margin:0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0b1020;
-      color:#eef2ff;
-      line-height: 1.65;
-    }
-    img{ max-width:100%; display:block; }
-    .muted{ color:#b8c4ea; }
-    .small{ font-size: 12px; color:#b8c4ea; }
-
-    /* =========================
-       1) STRUCTURĂ (DIV-uri)
-    ========================== */
-    .page{
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 16px 24px;
-    }
-
-    .header{
-      margin: 16px 0 12px;
-      padding: 18px 16px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.12);
-      background:
-        radial-gradient(520px 260px at 15% 10%, rgba(212,175,55,.28), transparent 60%),
-        radial-gradient(520px 260px at 85% 80%, rgba(90,160,255,.22), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      box-shadow: 0 12px 30px rgba(0,0,0,.35);
-    }
-
-    .title{
-      margin:0;
-      font-size: 30px;
-      letter-spacing: .2px;
-    }
-
-    .subtitle{
-      margin: 6px 0 0;
-      color:#b8c4ea;
-    }
-
-    /* layout: cuprins + conținut */
-    .layout{
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 12px;
-      align-items: start;
-    }
-    @media (max-width: 900px){
-      .layout{ grid-template-columns: 1fr; }
-    }
-
-    .sidebar, .content{
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-      box-shadow: 0 10px 26px rgba(0,0,0,.25);
-    }
-
-    .sidebar{
-      padding: 14px;
-      position: sticky;
-      top: 12px;
-    }
-    @media (max-width: 900px){
-      .sidebar{ position: static; }
-    }
-
-    .content{
-      padding: 14px;
-    }
-
-    .box{
-      padding: 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      margin: 12px 0;
-    }
-
-    /* =========================
-       2) CUPRINS (LISTĂ LINKURI)
-          + PSEUDO-CLASE
-    ========================== */
-    .tocTitle{
-      margin:0 0 10px;
-      font-size: 16px;
-      color: #d4af37;
-      letter-spacing: .3px;
-    }
-
-    .toc{
-      margin:0;
-      padding-left: 18px;
-    }
-    .toc li{ margin: 6px 0; }
-
-    /* pseudo-clase pentru link-uri */
-    .toc a:link{
-      color:#b8c4ea;
-      text-decoration: none;
-      padding: 6px 8px;
-      border-radius: 10px;
-      display:inline-block;
-      border:1px solid transparent;
-    }
-    .toc a:visited{
-      color:#98a6d8;
-    }
-    .toc a:hover{
-      color:#ffffff;
-      background: rgba(255,255,255,.08);
-      border-color: rgba(255,255,255,.14);
-      transform: translateY(-1px);
-    }
-    .toc a:active{
-      background: rgba(212,175,55,.20);
-      border-color: rgba(212,175,55,.40);
-      color:#fff;
-    }
-
-    /* efect vizual la secțiunea țintă (când dai click în cuprins) */
-    .section:target{
-      outline: 2px solid rgba(212,175,55,.55);
-      box-shadow: 0 0 0 6px rgba(212,175,55,.12);
-      scroll-margin-top: 14px;
-    }
-
-    /* =========================
-       3) FORMATAREA TEXTULUI
-    ========================== */
-    h2{
-      margin: 10px 0 6px;
-      color: #d4af37;
-      font-size: 22px;
-    }
-    h3{
-      margin: 10px 0 6px;
-      font-size: 16px;
-    }
-    p{ margin: 8px 0; }
-    ul{ margin: 8px 0; }
-
-    /* „first letter” + „first line” (efect / formatare) */
-    .lead::first-letter{
-      font-size: 42px;
-      font-weight: bold;
-      color: #d4af37;
-      float:left;
-      line-height: 1;
-      padding-right: 8px;
-      padding-top: 4px;
-    }
-    .lead::first-line{
-      letter-spacing: .3px;
-    }
-
-    /* =========================
-       4) EFECTE VIZUALE (extra)
-    ========================== */
-    .btnTop{
-      display:inline-block;
-      margin-top: 8px;
-      padding: 8px 10px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
-      color:#eef2ff;
-      text-decoration:none;
-    }
-    .btnTop:hover{
-      background: rgba(255,255,255,.10);
-      transform: translateY(-1px);
-    }
-
-    /* carduri (trofee) */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-    @media (max-width: 900px){
-      .grid{ grid-template-columns: 1fr; }
-    }
-    .card{
-      padding: 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(17,26,51,.55);
-      transition: transform .15s, background .15s, border-color .15s;
-    }
-    .card:hover{
-      transform: translateY(-2px);
-      background: rgba(17,26,51,.75);
-      border-color: rgba(212,175,55,.30);
-    }
-    .num{
-      font-size: 26px;
-      font-weight: 900;
-      color:#d4af37;
-      margin-bottom: 4px;
-    }
-
-    /* tabel simplu */
-    table{
-      width:100%;
-      border-collapse: collapse;
-      border-radius: 12px;
-      overflow:hidden;
-      border: 1px solid rgba(255,255,255,.12);
-      margin-top: 8px;
-    }
-    th, td{
-      padding:10px;
-      border-bottom:1px solid rgba(255,255,255,.08);
-      text-align:left;
-    }
-    th{
-      background: rgba(255,255,255,.06);
-      color:#b8c4ea;
-    }
-    tr:hover{ background: rgba(255,255,255,.04); }
-
-    /* footer */
-    .footer{
-      margin-top: 12px;
-      padding: 10px;
-      text-align:center;
-      color:#b8c4ea;
-      border-top: 1px solid rgba(255,255,255,.12);
-    }
-  </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Real Madrid CF — Despre club</title>
+    <style>
+         :root {
+            --bg: #0b1020;
+            --panel: #0f1730;
+            --card: #111a33;
+            --text: #eef2ff;
+            --muted: #b8c4ea;
+            --gold: #d4af37;
+            --line: rgba(255, 255, 255, .12);
+            --shadow: 0 12px 30px rgba(0, 0, 0, .35);
+            --r: 16px;
+            --max: 1100px;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: radial-gradient(1200px 600px at 10% 0%, #1a2a62 0%, var(--bg) 60%);
+            color: var(--text);
+        }
+        
+        a {
+            color: inherit
+        }
+        
+        .wrap {
+            max-width: var(--max);
+            margin: 0 auto;
+            padding: 0 16px
+        }
+        
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(12px);
+            background: rgba(10, 15, 30, .72);
+            border-bottom: 1px solid var(--line);
+        }
+        
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 12px 0
+        }
+        
+        .brand {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+        
+        .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: radial-gradient(circle at 30% 30%, #fff 0%, #f0f0f0 35%, #cfcfcf 75%);
+            border: 1px solid rgba(255, 255, 255, .35);
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            color: #111;
+        }
+        
+        nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+        
+        nav a {
+            text-decoration: none;
+            padding: 8px 10px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            color: var(--muted);
+        }
+        
+        nav a:hover {
+            border-color: var(--line);
+            background: rgba(255, 255, 255, .06);
+            color: var(--text)
+        }
+        
+        .hero {
+            padding: 18px 0 6px
+        }
+        
+        .banner {
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            background: radial-gradient(520px 260px at 18% 10%, rgba(212, 175, 55, .32), transparent 60%), radial-gradient(520px 260px at 86% 80%, rgba(120, 170, 255, .28), transparent 60%), linear-gradient(180deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .03));
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .bannerGrid {
+            display: grid;
+            grid-template-columns: 1.25fr .75fr;
+            gap: 14px;
+            padding: 16px
+        }
+        
+        @media (max-width:900px) {
+            .bannerGrid {
+                grid-template-columns: 1fr
+            }
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: clamp(22px, 3.2vw, 34px);
+            line-height: 1.05
+        }
+        
+        .muted {
+            color: var(--muted)
+        }
+        
+        .card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .03));
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            box-shadow: var(--shadow);
+            padding: 14px;
+        }
+        
+        section {
+            padding: 14px 0
+        }
+        
+        .sectionTitle {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 0 0 10px
+        }
+        
+        .sectionTitle h2 {
+            margin: 0;
+            font-size: 20px
+        }
+        
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+        
+        @media (max-width:900px) {
+            .grid2 {
+                grid-template-columns: 1fr
+            }
+        }
+        /* table */
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 10px
+        }
+        
+        .input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, .05);
+            min-width: 280px;
+        }
+        
+        .input input {
+            width: 100%;
+            border: 0;
+            outline: none;
+            background: transparent;
+            color: var(--text);
+            font-size: 14px
+        }
+        
+        select,
+        button {
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, .05);
+            color: var(--text);
+            padding: 10px 12px;
+            border-radius: 14px;
+            outline: none;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background: rgba(255, 255, 255, .09)
+        }
+        
+        option {
+            color: #111
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 1px solid var(--line)
+        }
+        
+        thead th {
+            text-align: left;
+            background: rgba(255, 255, 255, .06);
+            padding: 10px 10px;
+            font-size: 13px;
+            color: var(--muted);
+            border-bottom: 1px solid var(--line);
+        }
+        
+        tbody td {
+            padding: 10px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+            vertical-align: top;
+            font-size: 14px;
+        }
+        
+        tbody tr:hover {
+            background: rgba(255, 255, 255, .04)
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .14);
+            background: rgba(255, 255, 255, .04);
+            color: var(--muted);
+            font-size: 12px;
+            margin-right: 6px;
+        }
+        
+        .small {
+            font-size: 12px;
+            color: var(--muted)
+        }
+        
+        footer {
+            border-top: 1px solid var(--line);
+            margin-top: 16px;
+            padding: 16px 0 24px;
+            color: var(--muted);
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-  <div class="page" id="top">
-    <!-- HEADER -->
-    <div class="header">
-      <h1 class="title">Lucrarea de laborator №2 — CSS</h1>
-      <p class="subtitle">Tema: Real Madrid CF — pagină cu structură (DIV) + cuprins (link-uri) + pseudo-clase + efecte vizuale</p>
-    </div>
+    <header>
+        <div class="wrap">
+            <div class="topbar">
+                <div class="brand">
+                    <div class="logo">RM</div>
+                    <div>
+                        <div style="font-weight:900">Real Madrid CF — Despre club</div>
 
-    <!-- LAYOUT: SIDEBAR + CONTENT -->
-    <div class="layout">
-      <!-- SIDEBAR / CUPRINS -->
-      <div class="sidebar">
-        <div class="tocTitle">Cuprins</div>
-        <ol class="toc">
-          <li><a href="#despre">Despre club</a></li>
-          <li><a href="#istorie">Istorie (pe scurt)</a></li>
-          <li><a href="#stadion">Stadion</a></li>
-          <li><a href="#palmares">Palmares</a></li>
-          <li><a href="#lot">Lot (exemplu)</a></li>
-          <li><a href="#concluzie">Concluzie</a></li>
-        </ol>
-
-        <div class="box">
-          <div class="small"><b>Cerințe bifate:</b></div>
-          <ul class="small" style="margin:8px 0 0;line-height:1.6">
-            <li>Structură cu <b>div</b></li>
-            <li>CSS pentru layout & text</li>
-            <li>Cuprins ca listă de link-uri</li>
-            <li>Pseudo-clase: <b>:link :visited :hover :active</b></li>
-            <li>Efecte: shadow, hover, gradient, :target, ::first-letter</li>
-          </ul>
-        </div>
-
-        <a class="btnTop" href="#top">↑ Sus</a>
-      </div>
-
-      <!-- CONTENT -->
-      <div class="content">
-        <!-- 1 -->
-        <div class="box section" id="despre">
-          <h2>Despre club</h2>
-          <p class="lead">
-            Real Madrid Club de Fútbol este un club de fotbal din Madrid, cunoscut pentru tradiție,
-            performanțe și o cultură puternică a competiției. Clubul are o bază globală de suporteri
-            și este asociat cu identitatea „Los Blancos”.
-          </p>
-          <p class="muted small">Textul îl înlocuiești cu cel din Lucrarea №1 (cerința 1).</p>
-          <a class="btnTop" href="#top">↑ Sus</a>
-        </div>
-
-        <!-- 2 -->
-        <div class="box section" id="istorie">
-          <h2>Istorie (pe scurt)</h2>
-          <p>
-            Aici inserezi paragrafele despre istorie din prima lucrare: fondare, perioade importante,
-            jucători legendari, momente memorabile.
-          </p>
-          <ul>
-            <li>Fondare (data + context)</li>
-            <li>Perioade / ere importante</li>
-            <li>Realizări majore în competiții</li>
-          </ul>
-          <a class="btnTop" href="#top">↑ Sus</a>
-        </div>
-
-        <!-- 3 -->
-        <div class="box section" id="stadion">
-          <h2>Stadion</h2>
-          <p>
-            Secțiunea despre stadion: nume, capacitate, modernizări, importanță pentru club și suporteri.
-          </p>
-
-          <!-- imagine web (efect vizual simplu) -->
-          <div class="box">
-            <img
-              style="border-radius:12px;border:1px solid rgba(255,255,255,.12)"
-              src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1600&q=70"
-              alt="Imagine stadion (ilustrativ)"
-            />
-            <div class="small" style="margin-top:6px">Imagine web (ilustrativă) — Unsplash</div>
-          </div>
-
-          <a class="btnTop" href="#top">↑ Sus</a>
-        </div>
-
-        <!-- 4 -->
-        <div class="box section" id="palmares">
-          <h2>Palmares</h2>
-          <p>Exemplu de prezentare tip „carduri” (efect vizual la hover):</p>
-
-          <div class="grid">
-            <div class="card">
-              <div class="num">36</div>
-              <div><b>La Liga</b></div>
-              <div class="small">exemplu (editează cu datele tale)</div>
+                    </div>
+                </div>
+                <nav>
+                    <a href="#overview">Prezentare</a>
+                    <a href="#facts">Date cheie</a>
+                    <a href="#honours">Palmares</a>
+                    <a href="#squad">Lot (Current squad)</a>
+                </nav>
             </div>
-            <div class="card">
-              <div class="num">15</div>
-              <div><b>UEFA Champions League</b></div>
-              <div class="small">exemplu (editează cu datele tale)</div>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <!-- HERO -->
+        <section class="hero" id="overview">
+            <div class="banner">
+                <div class="bannerGrid">
+                    <div>
+                        <h1>Real Madrid Club de Fútbol</h1>
+                        <p class="muted" style="margin:10px 0 0;max-width:70ch">
+                            Pagina aceasta este un prototip „About / Club”, realizat exclusiv pe baza informațiilor din Wikipedia (Real Madrid CF) și include lotul din secțiunea “Current squad”.
+                        </p>
+                        <p class="small" style="margin:10px 0 0">
+                            Sursă: Wikipedia — Real Madrid CF (secțiunea “Current squad”).
+                        </p>
+                    </div>
+                    <div class="card">
+                        <div style="font-weight:900;margin-bottom:8px">Nicknames (Wikipedia)</div>
+                        <div class="badge">Los Blancos</div>
+                        <div class="badge">Los Merengues</div>
+                        <div class="badge">Los Vikingos</div>
+                        <div class="badge">La Casa Blanca</div>
+                        <div class="badge">Reyes de Europa</div>
+                        <div class="badge">Madridistas (supporters)</div>
+                    </div>
+                </div>
             </div>
-            <div class="card">
-              <div class="num">20</div>
-              <div><b>Copa del Rey</b></div>
-              <div class="small">exemplu (editează cu datele tale)</div>
+        </section>
+
+        <!-- KEY FACTS -->
+        <section id="facts">
+            <div class="sectionTitle">
+                <h2>Date cheie</h2>
+                <span class="muted">extras din infobox + introducere (Wikipedia)</span>
             </div>
-          </div>
 
-          <a class="btnTop" href="#top">↑ Sus</a>
-        </div>
+            <div class="grid2">
+                <div class="card">
+                    <h3 style="margin:0 0 8px">Identitate</h3>
+                    <p class="muted" style="margin:0;line-height:1.75">
+                        <b>Denumire completă:</b> Real Madrid Club de Fútbol<br/>
+                        <b>Fondat:</b> 6 March 1902 (as Madrid Football Club)<br/>
+                        <b>Stadion:</b> Estadio Bernabéu<br/>
+                        <b>Capacitate (infobox):</b> 83,186
+                    </p>
+                </div>
 
-        <!-- 5 -->
-        <div class="box section" id="lot">
-          <h2>Lot (exemplu)</h2>
-          <p class="muted small">
-            Dacă în prima lucrare ai avut un tabel sau o listă cu jucători, o pui aici.
-            Mai jos e un exemplu de tabel formatat cu CSS.
-          </p>
+                <div class="card">
+                    <h3 style="margin:0 0 8px">Notă despre lot</h3>
+                    <p class="muted" style="margin:0;line-height:1.75">
+                        În Wikipedia, secțiunea “Current squad” este marcată cu
+                        <b>“As of 2 February 2026”</b>. În tabelul de mai jos, datele (număr, poziție, națională, jucător) sunt copiate din acea secțiune.
+                    </p>
+                </div>
+            </div>
+        </section>
 
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Nume</th>
-                <th>Poziție</th>
-                <th>Țară</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>1</td><td>Thibaut Courtois</td><td>GK</td><td>BEL</td></tr>
-              <tr><td>2</td><td>Dani Carvajal</td><td>DF</td><td>ESP</td></tr>
-              <tr><td>5</td><td>Jude Bellingham</td><td>MF</td><td>ENG</td></tr>
-            </tbody>
-          </table>
+        <!-- HONOURS (short, directly from intro line) -->
+        <section id="honours">
+            <div class="sectionTitle">
+                <h2>Palmares (rezumat din Wikipedia)</h2>
+                <span class="muted">trophies & records</span>
+            </div>
 
-          <a class="btnTop" href="#top">↑ Sus</a>
-        </div>
+            <div class="card">
+                <p class="muted" style="margin:0;line-height:1.8">
+                    <b>Domestic football:</b> 71 trophies, inclusiv record 36 La Liga titles, 20 Copa del Rey, 13 Supercopa de España (plus alte competiții menționate în Wikipedia).<br/>
+                    <b>International football:</b> record 35 trophies, inclusiv record 15 European Cup/UEFA Champions League titles și record 6 UEFA Super Cups (plus alte competiții enumerate).
+                </p>
+                <p class="small" style="margin:10px 0 0">
+                    (Text rezumat din propoziția de introducere a articolului Wikipedia.)
+                </p>
+            </div>
+        </section>
 
-        <!-- 6 -->
-        <div class="box section" id="concluzie">
-          <h2>Concluzie</h2>
-          <p>
-            În această lucrare am creat o pagină HTML folosind structura cu <b>div</b> și am aplicat CSS
-            pentru layout și formatare text. Cuprinsul este realizat ca o listă de link-uri și folosește
-            pseudo-clasele <b>:link</b>, <b>:visited</b>, <b>:hover</b>, <b>:active</b>. Pentru efecte vizuale
-            am utilizat: umbre, hover pe carduri, fundal gradient, <b>:target</b> la secțiunea selectată și
-            <b>::first-letter</b>.
-          </p>
-          <a class="btnTop" href="#top">↑ Sus</a>
-        </div>
+        <!-- CURRENT SQUAD -->
+        <section id="squad">
+            <div class="sectionTitle">
+                <h2>Lotul actual — Current squad</h2>
+                <span class="muted">căutare + filtru + sortare (JS)</span>
+            </div>
 
-        <div class="footer">
-          © 2026 — Lucrarea de laborator №2 (CSS) — Prototip educațional
-        </div>
-      </div>
-    </div>
-  </div>
+            <div class="controls">
+                <div class="input" role="search">
+                    🔎 <input id="q" type="text" placeholder="Caută jucător (ex: Bellingham, Mbappé)..." />
+                </div>
+
+                <label class="small" for="pos">Poziție:</label>
+                <select id="pos">
+        <option value="ALL">Toate</option>
+        <option value="GK">GK</option>
+        <option value="DF">DF</option>
+        <option value="MF">MF</option>
+        <option value="FW">FW</option>
+      </select>
+
+                <label class="small" for="sort">Sortează:</label>
+                <select id="sort">
+        <option value="NO_ASC">Număr ↑</option>
+        <option value="NO_DESC">Număr ↓</option>
+        <option value="NAME_ASC">Nume A–Z</option>
+        <option value="NAME_DESC">Nume Z–A</option>
+      </select>
+
+                <button id="reset">Reset</button>
+            </div>
+
+            <div class="card" style="padding:12px">
+                <div class="small" style="margin-bottom:10px">
+                    Conform Wikipedia: <b>As of 2 February 2026</b> (Real Madrid CF — Current squad).
+                </div>
+
+                <table aria-label="Real Madrid current squad table">
+                    <thead>
+                        <tr>
+                            <th style="width:70px">No.</th>
+                            <th style="width:70px">Pos.</th>
+                            <th style="width:90px">Nation</th>
+                            <th>Player</th>
+                            <th style="width:170px">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+
+                <div id="empty" class="small" style="display:none;margin-top:10px">
+                    Nu există rezultate pentru filtrul curent.
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            © <span id="year"></span> — Prototip laborator.
+        </footer>
+    </main>
+
+    <script>
+        // ===== Data copied from Wikipedia (Real Madrid CF → “Current squad”, as of 2 February 2026) =====
+        const squad = [{
+            no: 1,
+            pos: "GK",
+            nation: "BEL",
+            player: "Thibaut Courtois",
+            notes: ""
+        }, {
+            no: 2,
+            pos: "DF",
+            nation: "ESP",
+            player: "Dani Carvajal",
+            notes: "Captain"
+        }, {
+            no: 3,
+            pos: "DF",
+            nation: "BRA",
+            player: "Éder Militão",
+            notes: ""
+        }, {
+            no: 4,
+            pos: "DF",
+            nation: "AUT",
+            player: "David Alaba",
+            notes: ""
+        }, {
+            no: 5,
+            pos: "MF",
+            nation: "ENG",
+            player: "Jude Bellingham",
+            notes: ""
+        }, {
+            no: 6,
+            pos: "MF",
+            nation: "FRA",
+            player: "Eduardo Camavinga",
+            notes: ""
+        }, {
+            no: 7,
+            pos: "FW",
+            nation: "BRA",
+            player: "Vinícius Júnior",
+            notes: ""
+        }, {
+            no: 8,
+            pos: "MF",
+            nation: "URU",
+            player: "Federico Valverde",
+            notes: "Vice-captain"
+        }, {
+            no: 10,
+            pos: "FW",
+            nation: "FRA",
+            player: "Kylian Mbappé",
+            notes: ""
+        }, {
+            no: 11,
+            pos: "FW",
+            nation: "BRA",
+            player: "Rodrygo",
+            notes: ""
+        }, {
+            no: 12,
+            pos: "DF",
+            nation: "ENG",
+            player: "Trent Alexander-Arnold",
+            notes: ""
+        }, {
+            no: 13,
+            pos: "GK",
+            nation: "UKR",
+            player: "Andriy Lunin",
+            notes: ""
+        }, {
+            no: 14,
+            pos: "MF",
+            nation: "FRA",
+            player: "Aurélien Tchouaméni",
+            notes: ""
+        }, {
+            no: 15,
+            pos: "MF",
+            nation: "TUR",
+            player: "Arda Güler",
+            notes: ""
+        }, {
+            no: 16,
+            pos: "FW",
+            nation: "ESP",
+            player: "Gonzalo García",
+            notes: ""
+        }, {
+            no: 17,
+            pos: "DF",
+            nation: "ESP",
+            player: "Raúl Asencio",
+            notes: ""
+        }, {
+            no: 18,
+            pos: "DF",
+            nation: "ESP",
+            player: "Álvaro Carreras",
+            notes: ""
+        }, {
+            no: 19,
+            pos: "MF",
+            nation: "ESP",
+            player: "Dani Ceballos",
+            notes: ""
+        }, {
+            no: 20,
+            pos: "DF",
+            nation: "ESP",
+            player: "Fran García",
+            notes: ""
+        }, {
+            no: 21,
+            pos: "FW",
+            nation: "MAR",
+            player: "Brahim Díaz",
+            notes: ""
+        }, {
+            no: 22,
+            pos: "DF",
+            nation: "GER",
+            player: "Antonio Rüdiger",
+            notes: ""
+        }, {
+            no: 23,
+            pos: "DF",
+            nation: "FRA",
+            player: "Ferland Mendy",
+            notes: ""
+        }, {
+            no: 24,
+            pos: "DF",
+            nation: "ESP",
+            player: "Dean Huijsen",
+            notes: ""
+        }, {
+            no: 30,
+            pos: "FW",
+            nation: "ARG",
+            player: "Franco Mastantuono",
+            notes: ""
+        }, ];
+
+        const $ = (id) => document.getElementById(id);
+
+        function sortFn(mode) {
+            if (mode === "NO_ASC") return (a, b) => a.no - b.no;
+            if (mode === "NO_DESC") return (a, b) => b.no - a.no;
+            if (mode === "NAME_ASC") return (a, b) => a.player.localeCompare(b.player);
+            if (mode === "NAME_DESC") return (a, b) => b.player.localeCompare(a.player);
+            return (a, b) => a.no - b.no;
+        }
+
+        function render() {
+            const q = $("q").value.trim().toLowerCase();
+            const pos = $("pos").value;
+            const sort = $("sort").value;
+
+            let rows = squad.filter(p => {
+                const okPos = (pos === "ALL") ? true : (p.pos === pos);
+                const okQ = (q === "") ? true : (
+                    p.player.toLowerCase().includes(q) ||
+                    p.nation.toLowerCase().includes(q) ||
+                    String(p.no).includes(q)
+                );
+                return okPos && okQ;
+            });
+
+            rows = rows.slice().sort(sortFn(sort));
+
+            const tbody = $("tbody");
+            tbody.innerHTML = "";
+
+            $("empty").style.display = rows.length ? "none" : "block";
+
+            rows.forEach(p => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+        <td><b>${p.no}</b></td>
+        <td>${p.pos}</td>
+        <td>${p.nation}</td>
+        <td>${p.player}</td>
+        <td>${p.notes || "-"}</td>
+      `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // events
+        $("q").addEventListener("input", render);
+        $("pos").addEventListener("change", render);
+        $("sort").addEventListener("change", render);
+        $("reset").addEventListener("click", () => {
+            $("q").value = "";
+            $("pos").value = "ALL";
+            $("sort").value = "NO_ASC";
+            render();
+        });
+
+        // init
+        $("year").textContent = new Date().getFullYear();
+        render();
+    </script>
 </body>
+
 </html>
